@@ -1,0 +1,38 @@
+2026-10-05 20:45:26 soak start (pid 4403, segment=600s)
+2026-10-05 20:45:32 seg#1 start (pid 4420)
+2026-10-05 20:48:02 DEATH #1 in seg#1 after 150s (frames stalled at 0; killing segment, watchdog takes over)
+2026-10-05 20:48:07 seg#1 aborted after 155s: 
+2026-10-05 20:48:07 seg#1 waiting for watchdog recovery before next segment
+2026-10-05 20:48:14 seg#2 start (pid 5142)
+2026-10-05 20:48:44 DEATH #2: seg#2 exited early rc=1 after 30s — 
+2026-10-05 20:48:50 seg#3 start (pid 5214)
+2026-10-05 20:49:20 DEATH #3: seg#3 exited early rc=1 after 30s — 
+2026-10-05 20:49:26 seg#4 start (pid 5284)
+2026-10-05 20:49:56 DEATH #4: seg#4 exited early rc=1 after 30s — 
+2026-10-05 20:50:02 seg#5 start (pid 5385)
+2026-10-05 20:50:33 DEATH #5: seg#5 exited early rc=1 after 30s — 
+2026-10-05 20:50:39 seg#6 start (pid 5455)
+2026-10-05 20:51:09 DEATH #6: seg#6 exited early rc=1 after 30s — 
+2026-10-05 20:51:15 seg#7 start (pid 5525)
+2026-10-05 20:51:45 DEATH #7: seg#7 exited early rc=1 after 30s — 
+2026-10-05 20:51:51 seg#8 start (pid 5628)
+2026-10-05 20:52:21 DEATH #8: seg#8 exited early rc=1 after 30s — 
+2026-10-05 20:52:27 seg#9 start (pid 5707)
+2026-10-05 20:53:22 soak v1.1 start (pid 5860, segment=600s)
+2026-10-05 20:53:28 seg#1 start (pid 5877)
+2026-10-05 20:55:58 DEATH: seg#1 frames stalled (elapsed 150s, frames=4898) — killing + hard recovery
+2026-10-05 20:56:01 seg#1 BAD after 153s rc=143 — 
+2026-10-05 20:56:03 hard-recover: VBUS cycle on vbus-host
+2026-10-05 20:56:20 hard-recover: camera healthy again
+2026-10-05 20:56:26 seg#2 start (pid 6691)
+2026-10-05 20:58:26 DEATH: seg#2 frames stalled (elapsed 120s, frames=0) — killing + hard recovery
+2026-10-05 20:58:29 seg#2 BAD after 123s rc=143 — 
+2026-10-05 20:58:31 hard-recover: VBUS cycle on vbus-host
+2026-10-05 20:58:48 hard-recover: camera healthy again
+2026-10-05 20:58:54 seg#3 start (pid 7417)
+2026-10-05 21:01:24 DEATH: seg#3 frames stalled (elapsed 150s, frames=0) — killing + hard recovery
+2026-10-05 21:01:27 seg#3 BAD after 153s rc=143 — 
+2026-10-05 21:01:29 hard-recover: VBUS cycle on vbus-host
+2026-10-05 21:01:46 hard-recover: camera healthy again
+2026-10-05 21:01:52 seg#4 start (pid 8468)
+2026-10-05 21:24:24 soak v1.1 start (pid 16635, segment=600s)

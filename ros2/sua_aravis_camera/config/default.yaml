@@ -1,0 +1,17 @@
+/**:
+  ros__parameters:
+    camera_name: mv_camera
+    camera_optical_frame: camera_optical_frame
+    camera_info_url: ""
+    exposure_time: 10000.0        # µs; 帧率由曝光决定: 10ms≈77fps, 33ms≈30fps
+    use_sensor_data_qos: false    # true = BestEffort (无线/丢包容忍场景)
+    output_encoding: "rgb8"       # rgb8(节点内NN去马赛克) 或 bayer_rggb8(原生raw)
+    stream_stall_seconds: 5.0     # 连续N秒无帧 → 进入恢复状态机
+    usb_recover_script: "/usr/local/sbin/usb_recover.sh"
+    wb_mode: "once"               # once=每次开流执行相机一键白平衡并锁定(推荐)
+                                  # manual=用下方 wb_*gain 手动增益 / off=不动
+    wb_rgain: 100                 # wb_mode=manual 时的通道增益 (0~400, 100=中性)
+    wb_ggain: 100
+    wb_bgain: 100
+    bayer_pattern: "bggr"         # 物理CFA实测为BGGR（增益锚点法，见cfa_test.c）；
+                                  # bggr → 彩色模式发布 bgr8 编码；rggb → rgb8

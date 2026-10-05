@@ -1,0 +1,10 @@
+[INFO] [launch]: All log files can be found below /home/xiaoxingchn/.ros/log/2026-10-05-22-40-49-480623-xiaoxingchn-desktop-29392
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [aravis_camera_node-1]: process started with pid [29417]
+[aravis_camera_node-1] [INFO] [1791211249.944872805] [aravis_camera_node]: camera_name=mv_camera frame=camera_optical_frame out=bgr8 pattern=bggr exposure=10000us qos=reliable(10) recover_script=/usr/local/sbin/usb_recover.sh
+[aravis_camera_node-1] [INFO] [1791211252.476053320] [aravis_camera_node]: white balance: mode=once, gains R=151 G=100 B=175
+[aravis_camera_node-1] [INFO] [1791211252.478150424] [aravis_camera_node]: using default calibration URL
+[aravis_camera_node-1] [INFO] [1791211252.478239383] [aravis_camera_node]: camera calibration URL: file:///home/xiaoxingchn/.ros/camera_info/mv_camera.yaml
+[aravis_camera_node-1] [ERROR] [1791211252.478331842] [camera_calibration_parsers]: Unable to open camera calibration file [/home/xiaoxingchn/.ros/camera_info/mv_camera.yaml]
+[aravis_camera_node-1] [WARN] [1791211252.478410593] [aravis_camera_node]: Camera calibration file /home/xiaoxingchn/.ros/camera_info/mv_camera.yaml not found
+[aravis_camera_node-1] [INFO] [1791211252.478432760] [aravis_camera_node]: camera open: 1280x1024, exposure 10000 us — streaming

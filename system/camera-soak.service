@@ -1,0 +1,12 @@
+[Unit]
+Description=SUA133GC continuous streaming soak test (segments + stall detection)
+After=camera-watchdog.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/camera_soak.sh
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

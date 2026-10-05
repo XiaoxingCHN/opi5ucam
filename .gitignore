@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# ROS / colcon
+build/
+install/
+log/
+
+# 编译产物
+*.o
+arv_grab
+wb_probe
+cfa_test
+wb_probe.c~
+
+# 编辑器/系统
+.vscode/
+.idea/
+*.swp
+.DS_Store

@@ -1,0 +1,12 @@
+[Unit]
+Description=MindVision SUA133GC USB link watchdog (auto-recovery)
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/camera_watchdog.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

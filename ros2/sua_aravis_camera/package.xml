@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>sua_aravis_camera</name>
+  <version>1.0.0</version>
+  <description>
+    MindVision SUA133GC (USB3 Vision) camera node for ROS2 Humble, based on
+    Aravis 0.8. Publishes &lt;camera_name&gt;/image_raw + camera_info with a
+    built-in USB link recovery state machine (VBUS power cycle).
+  </description>
+  <maintainer email="xiaoxingchn@example.com">xiaoxingchn</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>image_transport</depend>
+  <depend>camera_info_manager</depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

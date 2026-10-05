@@ -1,0 +1,116 @@
+2026-10-05 20:33:51 [INFO] watchdog start (pid 77865, interval 15s)
+2026-10-05 20:33:51 [INFO] watchdog start (pid 77869, interval 15s)
+2026-10-05 20:33:52 [INFO] heartbeat: camera OK
+2026-10-05 20:39:31 [INFO] watchdog start (pid 650, interval 15s)
+2026-10-05 20:39:34 [INFO] heartbeat: camera OK
+2026-10-05 20:41:57 [WARN] camera NOT on bus (probe x1)
+2026-10-05 20:41:57 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 20:41:57 [INFO] L1 skipped (device not on bus)
+2026-10-05 20:41:57 [INFO] L2 failed
+2026-10-05 20:42:07 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 20:45:26 [INFO] watchdog v1.1 start (pid 4351, interval 15s)
+2026-10-05 20:45:27 [INFO] heartbeat: camera OK
+2026-10-05 20:45:42 [INFO] camera in use (in-use by 4422(arv_grab)) — probes suspended
+2026-10-05 20:52:47 [INFO] camera released (in-use by 4422(arv_grab)) — probes resumed
+2026-10-05 20:53:35 [INFO] camera in use (in-use by 5877(arv_grab)) — probes suspended
+2026-10-05 20:56:06 [WARN] camera NOT on bus (probe x1)
+2026-10-05 20:56:06 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 20:56:06 [INFO] L1 skipped (device not on bus)
+2026-10-05 20:56:06 [INFO] L2 failed
+2026-10-05 20:56:15 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 20:58:32 [WARN] camera NOT on bus (probe x1)
+2026-10-05 20:58:32 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 20:58:32 [INFO] L1 skipped (device not on bus)
+2026-10-05 20:58:32 [INFO] L2 failed
+2026-10-05 20:58:43 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:00:29 [INFO] heartbeat: camera OK
+2026-10-05 21:01:30 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:01:30 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:01:30 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:01:30 [INFO] L2 failed
+2026-10-05 21:01:41 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:02:43 [INFO] camera released (in-use by 8468(arv_grab)) — probes resumed
+2026-10-05 21:03:14 [INFO] camera in use (in-use by 8657(arv_grab)) — probes suspended
+2026-10-05 21:05:01 [INFO] camera released (in-use by 8657(arv_grab)) — probes resumed
+2026-10-05 21:07:59 [INFO] camera in use (in-use by 9365(arv_grab)) — probes suspended
+2026-10-05 21:13:10 [INFO] camera released (in-use by 9365(arv_grab)) — probes resumed
+2026-10-05 21:13:10 [WARN] camera wedged: enumerated but control channel dead (probe x1)
+2026-10-05 21:13:10 [WARN] recovery ladder start (device present); any active stream will be interrupted
+2026-10-05 21:13:17 [INFO] L1 authorized-toggle revived
+2026-10-05 21:13:33 [INFO] camera in use (in-use by 10621(arv_grab)) — probes suspended
+2026-10-05 21:13:48 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:13:48 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:13:48 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:13:48 [INFO] L2 failed
+2026-10-05 21:13:56 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:14:11 [INFO] camera released (in-use by 10621(arv_grab)) — probes resumed
+2026-10-05 21:14:11 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:14:11 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:14:11 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:14:11 [INFO] L2 failed
+2026-10-05 21:14:18 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:14:33 [INFO] camera in use (in-use by 11229(arv_grab)) — probes suspended
+2026-10-05 21:14:33 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:14:33 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:14:33 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:14:33 [INFO] L2 failed
+2026-10-05 21:14:44 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:14:59 [INFO] camera released (in-use by 11229(arv_grab)) — probes resumed
+2026-10-05 21:14:59 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:14:59 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:14:59 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:14:59 [INFO] L2 failed
+2026-10-05 21:15:10 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:15:26 [INFO] camera in use (in-use by 11996(arv_grab)) — probes suspended
+2026-10-05 21:15:41 [INFO] heartbeat: camera OK
+2026-10-05 21:15:57 [INFO] camera released (in-use by 11996(arv_grab)) — probes resumed
+2026-10-05 21:16:12 [INFO] camera in use (in-use by 12555(arv_grab)) — probes suspended
+2026-10-05 21:16:27 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:16:27 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:16:27 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:16:27 [INFO] L2 failed
+2026-10-05 21:16:34 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:16:49 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:16:49 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:16:50 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:16:50 [INFO] L2 failed
+2026-10-05 21:17:00 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:17:15 [INFO] camera released (in-use by 12978(arv_grab)) — probes resumed
+2026-10-05 21:17:15 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:17:15 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:17:15 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:17:15 [INFO] L2 failed
+2026-10-05 21:17:27 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:17:42 [WARN] camera NOT on bus (probe x1)
+2026-10-05 21:17:42 [WARN] recovery ladder start (device GONE-from-bus); any active stream will be interrupted
+2026-10-05 21:17:42 [INFO] L1 skipped (device not on bus)
+2026-10-05 21:17:42 [INFO] L2 failed
+2026-10-05 21:17:54 [INFO] L3 dwc3-rebind (fc400000.usb) revived
+2026-10-05 21:19:15 [INFO] camera in use (in-use by 14674(arv_grab)) — probes suspended
+2026-10-05 21:24:35 [INFO] camera released (in-use by 16529(arv_grab)) — probes resumed
+2026-10-05 21:30:42 [INFO] camera in use (in-use by 18212(aravis_camera_n)) — probes suspended
+2026-10-05 21:30:42 [INFO] heartbeat: camera OK
+2026-10-05 21:34:15 [INFO] camera released (in-use by 18212(aravis_camera_n)) — probes resumed
+2026-10-05 21:35:10 [INFO] watchdog v1.1 start (pid 22250, interval 15s)
+2026-10-05 21:35:12 [INFO] heartbeat: camera OK
+2026-10-05 21:35:44 [INFO] camera in use (in-use by ros-node (probes suspended)) — probes suspended
+2026-10-05 21:49:33 [INFO] camera released (in-use by ros-node (probes suspended)) — probes resumed
+2026-10-05 21:50:23 [INFO] heartbeat: camera OK
+2026-10-05 21:54:33 [INFO] camera in use (in-use by 24714(wb_probe)) — probes suspended
+2026-10-05 21:55:05 [INFO] camera released (in-use by 24714(wb_probe)) — probes resumed
+2026-10-05 21:57:01 [INFO] camera in use (in-use by 24988(wb_probe)) — probes suspended
+2026-10-05 21:57:33 [INFO] camera released (in-use by 24988(wb_probe)) — probes resumed
+2026-10-05 21:58:55 [INFO] camera in use (in-use by 25196(wb_probe)) — probes suspended
+2026-10-05 21:59:12 [INFO] camera released (in-use by 25196(wb_probe)) — probes resumed
+2026-10-05 22:02:32 [INFO] camera in use (in-use by ros-node (probes suspended)) — probes suspended
+2026-10-05 22:02:48 [INFO] camera released (in-use by ros-node (probes suspended)) — probes resumed
+2026-10-05 22:03:04 [INFO] camera in use (in-use by ros-node (probes suspended)) — probes suspended
+2026-10-05 22:05:34 [INFO] heartbeat: camera OK
+2026-10-05 22:20:37 [INFO] heartbeat: camera OK
+2026-10-05 22:35:42 [INFO] camera released (in-use by ros-node (probes suspended)) — probes resumed
+2026-10-05 22:35:42 [INFO] heartbeat: camera OK
+2026-10-05 22:39:15 [INFO] camera in use (in-use by ros-node (probes suspended)) — probes suspended
+2026-10-05 22:39:31 [INFO] camera released (in-use by ros-node (probes suspended)) — probes resumed
+2026-10-05 22:39:47 [INFO] camera in use (in-use by ros-node (probes suspended)) — probes suspended
+2026-10-05 22:50:49 [INFO] heartbeat: camera OK
+2026-10-05 23:05:52 [INFO] heartbeat: camera OK
