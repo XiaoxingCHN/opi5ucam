@@ -1,0 +1,65 @@
+From 3ef817a02b7a710b8b6899353fb6ac0257cb1a08 Mon Sep 17 00:00:00 2001
+From: dev <dev@local>
+Date: Mon, 5 Oct 2026 01:04:19 +0800
+Subject: [PATCH 1/3] phy: rockchip: usbdp: align init tables and status check
+ with mainline/6.1 vendor tree
+
+- enable LCPLL lock/AFC done detection in 24M/26M refclk tables (0x00D4)
+- add 0x09C0/0x19C0 lane tuning from mainline udphy_init_sequence
+- move LCPLL enable write out of the shared init sequence into the
+  per-refclk tables (correct ordering before the lock poll)
+- on CDR lock timeout, disable the USB3 port instead of leaving a
+  half-initialized link up (matches mainline udphy_status_check)
+---
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+index 678825f90..8504d3c12 100644
+--- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
++++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+@@ -290,7 +290,8 @@ static const struct reg_sequence rk3588_udphy_24m_refclk_cfg[] = {
+ 	{0x0a64, 0xa8}, {0x1a3c, 0xd0},
+ 	{0x1a44, 0xd0}, {0x1a48, 0x01},
+ 	{0x1a4c, 0x0d}, {0x1a54, 0xe0},
+-	{0x1a5c, 0xe0}, {0x1a64, 0xa8}
++	{0x1a5c, 0xe0}, {0x1a64, 0xa8},
++	{0x00D4, 0x30}
+ };
+ 
+ static const struct reg_sequence rk3588_udphy_26m_refclk_cfg[] = {
+@@ -317,7 +318,7 @@ static const struct reg_sequence rk3588_udphy_26m_refclk_cfg[] = {
+ 	{0x0c30, 0x0E}, {0x0C48, 0x06},
+ 	{0x1C30, 0x0E}, {0x1C48, 0x06},
+ 	{0x028C, 0x18}, {0x0AF0, 0x00},
+-	{0x1AF0, 0x00}
++	{0x1AF0, 0x00}, {0x00D4, 0x33}
+ };
+ 
+ static const struct reg_sequence rk3588_udphy_init_sequence[] = {
+@@ -352,8 +353,8 @@ static const struct reg_sequence rk3588_udphy_init_sequence[] = {
+ 	{0x0070, 0x7D}, {0x0074, 0x68},
+ 	{0x0AF4, 0x1A}, {0x1AF4, 0x1A},
+ 	{0x0440, 0x3F}, {0x10D4, 0x08},
+-	{0x20D4, 0x08}, {0x00D4, 0x30},
+-	{0x0024, 0x6e},
++	{0x20D4, 0x08}, {0x0024, 0x6e},
++	{0x09C0, 0x0A}, {0x19C0, 0x0A}
+ };
+ 
+ static inline int grfreg_write(struct regmap *base,
+@@ -1353,6 +1354,11 @@ static int rk3588_udphy_status_check(struct rockchip_udphy *udphy)
+ 			if (ret)
+ 				dev_notice(udphy->dev, "trsv ln2 mon rx cdr lock timeout\n");
+ 		}
++
++		if (ret) {
++			udphy_u3_port_disable(udphy, true);
++			dev_warn(udphy->dev, "disable u3 port because udphy not ready\n");
++		}
+ 	}
+ 
+ 	return 0;
+-- 
+2.34.1
+

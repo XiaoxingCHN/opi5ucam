@@ -1,0 +1,173 @@
+From 7e58f1756fcfd69ec87f25c7827b18542a3f6c0c Mon Sep 17 00:00:00 2001
+From: dev <dev@local>
+Date: Mon, 5 Oct 2026 01:04:19 +0800
+Subject: [PATCH 2/3] usb: dwc3: core: program GUCTL.REFCLKPER / GFLADJ from
+ snps,ref-clock-period-ns
+
+Backport of the upstream v5.13 series (Sean Anderson / Thinh Nguyen,
+"usb: dwc3: Program GUCTL.REFCLKPER"), also carried by the Orange Pi
+6.1 vendor tree. Programs the reference clock period in GUCTL and the
+frame length adjustment in GFLADJ so internal LFPS/polling timers match
+the actual 24MHz reference clock.
+---
+ drivers/usb/dwc3/core.c | 74 ++++++++++++++++++++++++++++++++++++++++-
+ drivers/usb/dwc3/core.h |  9 +++++
+ 2 files changed, 82 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 2cd2de403..12e8418fa 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -12,6 +12,8 @@
+ #include <linux/version.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
++#include <linux/math64.h>
++#include <linux/time64.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/platform_device.h>
+@@ -754,7 +756,7 @@ static int dwc3_phy_setup(struct dwc3 *dwc)
+ 	else
+ 		reg |= DWC3_GUSB2PHYCFG_ENBLSLPM;
+ 
+-	if (dwc->dis_u2_freeclk_exists_quirk)
++	if (dwc->dis_u2_freeclk_exists_quirk || dwc->gfladj_refclk_lpm_sel)
+ 		reg &= ~DWC3_GUSB2PHYCFG_U2_FREECLK_EXISTS;
+ 
+ 	dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+@@ -970,6 +972,69 @@ static void dwc3_set_incr_burst_type(struct dwc3 *dwc)
+ 	dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, cfg);
+ }
+ 
++
++/**
++ * dwc3_ref_clk_period - Reference clock period configuration
++ * @dwc: Pointer to our controller context structure
++ *
++ * Program GUCTL.REFCLKPER with the reference clock period in nanoseconds so
++ * that the controller's internal timers (LFPS handshake, polling, burst
++ * scheduling) match the real reference clock instead of the coreConsultant
++ * default. The remaining frame length error is corrected via GFLADJ.
++ */
++static void dwc3_ref_clk_period(struct dwc3 *dwc)
++{
++	unsigned long period;
++	unsigned long fladj;
++	unsigned long decr;
++	unsigned long rate;
++	u32 reg;
++
++	if (!dwc->ref_clk_per)
++		return;
++
++	period = dwc->ref_clk_per;
++	rate = NSEC_PER_SEC / period;
++
++	reg = dwc3_readl(dwc->regs, DWC3_GUCTL);
++	reg &= ~DWC3_GUCTL_REFCLKPER_MASK;
++	reg |=  FIELD_PREP(DWC3_GUCTL_REFCLKPER_MASK, period);
++	dwc3_writel(dwc->regs, DWC3_GUCTL, reg);
++
++	if (DWC3_VER_IS_PRIOR(DWC3, 250A))
++		return;
++
++	/*
++	 * The calculation below is
++	 *
++	 * 125000 * (NSEC_PER_SEC / (rate * period) - 1)
++	 *
++	 * but rearranged for fixed-point arithmetic. The division must be
++	 * 64-bit because 125000 * NSEC_PER_SEC doesn't fit in 32 bits (and
++	 * neither does rate * period).
++	 */
++	fladj = div64_u64(125000ULL * NSEC_PER_SEC, (u64)rate * period);
++	fladj -= 125000;
++
++	/*
++	 * The documented 240MHz constant is scaled by 2 to get PLS1 as well.
++	 */
++	decr = 480000000 / rate;
++
++	reg = dwc3_readl(dwc->regs, DWC3_GFLADJ);
++	reg &= ~DWC3_GFLADJ_REFCLK_FLADJ_MASK
++	    &  ~DWC3_GFLADJ_240MHZDECR
++	    &  ~DWC3_GFLADJ_240MHZDECR_PLS1;
++	reg |= FIELD_PREP(DWC3_GFLADJ_REFCLK_FLADJ_MASK, fladj)
++	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR, decr >> 1)
++	    |  FIELD_PREP(DWC3_GFLADJ_240MHZDECR_PLS1, decr & 1);
++
++	if (dwc->gfladj_refclk_lpm_sel)
++		reg |=  DWC3_GFLADJ_REFCLK_LPM_SEL;
++
++	dwc3_writel(dwc->regs, DWC3_GFLADJ, reg);
++}
++
+ /**
+  * dwc3_core_init - Low-level initialization of DWC3 Core
+  * @dwc: Pointer to our controller context structure
+@@ -1054,6 +1119,9 @@ static int dwc3_core_init(struct dwc3 *dwc)
+ 	/* Adjust Frame Length */
+ 	dwc3_frame_length_adjustment(dwc);
+ 
++	/* Adjust Reference Clock Period */
++	dwc3_ref_clk_period(dwc);
++
+ 	dwc3_set_incr_burst_type(dwc);
+ 
+ 	usb_phy_set_suspend(dwc->usb2_phy, 0);
+@@ -1436,6 +1504,10 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 
+ 	dwc->tx_de_emphasis_quirk = device_property_read_bool(dev,
+ 				"snps,tx_de_emphasis_quirk");
++	dwc->gfladj_refclk_lpm_sel = device_property_read_bool(dev,
++				"snps,gfladj-refclk-lpm-sel-quirk");
++	device_property_read_u32(dev, "snps,ref-clock-period-ns",
++				 &dwc->ref_clk_per);
+ 	device_property_read_u8(dev, "snps,tx_de_emphasis",
+ 				&tx_de_emphasis);
+ 	device_property_read_string(dev, "snps,hsphy_interface",
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 602c06de8..9b7b483b1 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -263,6 +263,9 @@
+ #define DWC3_GUCTL1_PARKMODE_DISABLE_SS		BIT(17)
+ #define DWC3_GUCTL1_PARKMODE_DISABLE_HS		BIT(16)
+ 
++#define DWC3_GUCTL_REFCLKPER_MASK		0xffc00000
++#define DWC3_GUCTL_REFCLKPER_SEL		22
++
+ /* Global Status Register */
+ #define DWC3_GSTS_OTG_IP	BIT(10)
+ #define DWC3_GSTS_BC_IP		BIT(9)
+@@ -390,6 +393,10 @@
+ /* Global Frame Length Adjustment Register */
+ #define DWC3_GFLADJ_30MHZ_SDBND_SEL		BIT(7)
+ #define DWC3_GFLADJ_30MHZ_MASK			0x3f
++#define DWC3_GFLADJ_REFCLK_FLADJ_MASK		GENMASK(21, 8)
++#define DWC3_GFLADJ_REFCLK_LPM_SEL		BIT(23)
++#define DWC3_GFLADJ_240MHZDECR			GENMASK(30, 24)
++#define DWC3_GFLADJ_240MHZDECR_PLS1		BIT(31)
+ 
+ /* Global User Control Register 2 */
+ #define DWC3_GUCTL2_RST_ACTBITLATER		BIT(14)
+@@ -1181,6 +1188,7 @@ struct dwc3 {
+ 	struct power_supply	*usb_psy;
+ 
+ 	u32			fladj;
++	u32			ref_clk_per;
+ 	u32			irq_gadget;
+ 	u32			otg_irq;
+ 	u32			current_otg_role;
+@@ -1314,6 +1322,7 @@ struct dwc3 {
+ 	unsigned		dis_u2_freeclk_exists_quirk:1;
+ 	unsigned		dis_del_phy_power_chg_quirk:1;
+ 	unsigned		dis_tx_ipgap_linecheck_quirk:1;
++	unsigned		gfladj_refclk_lpm_sel:1;
+ 	unsigned		parkmode_disable_ss_quirk:1;
+ #ifdef CONFIG_NO_GKI
+ 	unsigned		parkmode_disable_hs_quirk:1;
+-- 
+2.34.1
+

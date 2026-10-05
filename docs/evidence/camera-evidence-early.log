@@ -1,0 +1,105 @@
+[   18.680533] xhci-hcd xhci-hcd.7.auto: xHCI Host Controller
+[   18.683845] xhci-hcd xhci-hcd.7.auto: new USB bus registered, assigned bus number 5
+[   18.687246] xhci-hcd xhci-hcd.7.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000802002010010
+[   18.690612] xhci-hcd xhci-hcd.7.auto: irq 197, io mem 0xfc000000
+[   18.694047] xhci-hcd xhci-hcd.7.auto: xHCI Host Controller
+[   18.697405] xhci-hcd xhci-hcd.7.auto: new USB bus registered, assigned bus number 6
+[   18.700779] xhci-hcd xhci-hcd.7.auto: Host supports USB 3.0 SuperSpeed
+[   18.714425] usb usb5: Manufacturer: Linux 5.10.209 xhci-hcd
+[   18.717834] usb usb5: SerialNumber: xhci-hcd.7.auto
+[   18.742277] usb usb6: Manufacturer: Linux 5.10.209 xhci-hcd
+[   18.745688] usb usb6: SerialNumber: xhci-hcd.7.auto
+[   18.759675] xhci-hcd xhci-hcd.8.auto: xHCI Host Controller
+[   18.762963] xhci-hcd xhci-hcd.8.auto: new USB bus registered, assigned bus number 7
+[   18.766294] xhci-hcd xhci-hcd.8.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000800002010010
+[   18.769536] xhci-hcd xhci-hcd.8.auto: irq 198, io mem 0xfc400000
+[   18.772818] xhci-hcd xhci-hcd.8.auto: xHCI Host Controller
+[   18.776004] xhci-hcd xhci-hcd.8.auto: new USB bus registered, assigned bus number 8
+[   18.779204] xhci-hcd xhci-hcd.8.auto: Host supports USB 3.0 SuperSpeed
+[   18.791928] usb usb7: Manufacturer: Linux 5.10.209 xhci-hcd
+[   18.795043] usb usb7: SerialNumber: xhci-hcd.8.auto
+[   18.817473] usb usb8: Manufacturer: Linux 5.10.209 xhci-hcd
+[   18.820668] usb usb8: SerialNumber: xhci-hcd.8.auto
+[  936.905312] usb 6-1: new SuperSpeed Gen 1 USB device number 2 using xhci-hcd
+[  936.922392] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[  936.922899] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[  936.922905] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[  936.922909] usb 6-1: Product: SUA133GC
+[  936.922913] usb 6-1: Manufacturer: MindVision
+[  936.922918] usb 6-1: SerialNumber: 042090420304
+[  982.028760] usb 6-1: USB disconnect, device number 2
+[  998.903546] usb 6-1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+[  998.920658] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[  998.921156] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[  998.921162] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[  998.921167] usb 6-1: Product: SUA133GC
+[  998.921171] usb 6-1: Manufacturer: MindVision
+[  998.921176] usb 6-1: SerialNumber: 042090420304
+[ 2919.133460] usb 6-1: reset SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+[ 2919.150289] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 2922.100438] usb 6-1: Device not responding to setup address.
+[ 2922.310132] usb 6-1: Device not responding to setup address.
+[ 2922.516757] usb 6-1: device not accepting address 3, error -71
+[ 2923.120131] usb 6-1: reset SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+[ 2923.137048] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 2925.123582] usb 6-1: reset SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+[ 2925.140457] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 3866.439264] usb 6-1: USB disconnect, device number 3
+[ 3892.459458] usb 6-1: new SuperSpeed Gen 1 USB device number 4 using xhci-hcd
+[ 3892.476519] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 3892.476875] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[ 3892.476877] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[ 3892.476878] usb 6-1: Product: SUA133GC
+[ 3892.476880] usb 6-1: Manufacturer: MindVision
+[ 3892.476882] usb 6-1: SerialNumber: 042090420304
+[ 4027.681048] usb 6-1: reset SuperSpeed Gen 1 USB device number 4 using xhci-hcd
+[ 4027.697851] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 4455.025479] usb 6-1: USB disconnect, device number 4
+[ 4464.794831] usb 6-1: new SuperSpeed Gen 1 USB device number 5 using xhci-hcd
+[ 4464.812699] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 4464.813048] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[ 4464.813051] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[ 4464.813053] usb 6-1: Product: SUA133GC
+[ 4464.813055] usb 6-1: Manufacturer: MindVision
+[ 4464.813057] usb 6-1: SerialNumber: 042090420305
+[ 6635.666110] usb 6-1: authorized to connect
+[ 9948.594318] usb 6-1: USB disconnect, device number 5
+[ 9956.805680] usb 6-1: new SuperSpeed Gen 1 USB device number 6 using xhci-hcd
+[ 9956.823059] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[ 9956.823636] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[ 9956.823642] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[ 9956.823647] usb 6-1: Product: SUA133GC
+[ 9956.823651] usb 6-1: Manufacturer: MindVision
+[ 9956.823655] usb 6-1: SerialNumber: 042090420305
+[11521.699622] usb 6-1: USB disconnect, device number 6
+[11531.224719] usb 6-1: new SuperSpeed Gen 1 USB device number 7 using xhci-hcd
+[11531.241929] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[11531.242355] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[11531.242360] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[11531.242365] usb 6-1: Product: SUA133GC
+[11531.242369] usb 6-1: Manufacturer: MindVision
+[11531.242372] usb 6-1: SerialNumber: 042090420305
+[12326.006275] usb 6-1: USB disconnect, device number 7
+[12336.095114] usb 6-1: new SuperSpeed Gen 1 USB device number 8 using xhci-hcd
+[12336.115522] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[12336.115882] usb 6-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[12336.115885] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[12336.115887] usb 6-1: Product: SUA133GC
+[12336.115889] usb 6-1: Manufacturer: MindVision
+[12336.115891] usb 6-1: SerialNumber: 042090420305
+[12356.625616] usb 6-1: reset SuperSpeed Gen 1 USB device number 8 using xhci-hcd
+[12356.645746] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[12356.998914] usb 6-1: Device not responding to setup address.
+[12357.213436] usb 6-1: Device not responding to setup address.
+[12357.418773] usb 6-1: device not accepting address 8, error -71
+[12357.608813] usb 6-1: reset SuperSpeed Gen 1 USB device number 8 using xhci-hcd
+[12357.625718] usb 6-1: LPM exit latency is zeroed, disabling LPM.
+[12362.792289] usb 6-1: can't restore configuration #1 (error=-110)
+[12362.792405] usb 6-1: USB disconnect, device number 8
+[12365.865626] usb 8-1: new SuperSpeed Gen 1 USB device number 2 using xhci-hcd
+[12365.882668] usb 8-1: LPM exit latency is zeroed, disabling LPM.
+[12365.883035] usb 8-1: New USB device found, idVendor=f622, idProduct=d132, bcdDevice= 1.00
+[12365.883038] usb 8-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[12365.883040] usb 8-1: Product: SUA133GC
+[12365.883042] usb 8-1: Manufacturer: MindVision
+[12365.883043] usb 8-1: SerialNumber: 042090420305

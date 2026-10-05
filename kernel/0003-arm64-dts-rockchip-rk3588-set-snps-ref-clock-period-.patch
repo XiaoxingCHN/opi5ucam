@@ -1,0 +1,48 @@
+From 16b6819fd355f7818632b659bed8c981044982a6 Mon Sep 17 00:00:00 2001
+From: dev <dev@local>
+Date: Mon, 5 Oct 2026 01:04:19 +0800
+Subject: [PATCH 3/3] arm64: dts: rockchip: rk3588: set
+ snps,ref-clock-period-ns for USB3 dwc3 nodes
+
+24MHz reference clock -> 41ns period, consumed by the dwc3 core
+REFCLKPER/GFLADJ programming.
+---
+ arch/arm64/boot/dts/rockchip/rk3588.dtsi  | 1 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588.dtsi b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+index 65e490b9c..bfbbb887a 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+@@ -111,6 +111,7 @@ usbdrd_dwc3_1: usb@fc400000 {
+ 			phy-names = "usb2-phy", "usb3-phy";
+ 			phy_type = "utmi_wide";
+ 			snps,dis_enblslpm_quirk;
++			snps,ref-clock-period-ns = <41>;
+ 			snps,dis-u1-entry-quirk;
+ 			snps,dis-u2-entry-quirk;
+ 			snps,dis-u2-freeclk-exists-quirk;
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+index 47e2f5077..532c281ac 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+@@ -2585,6 +2585,7 @@ usbdrd_dwc3_0: usb@fc000000 {
+ 			snps,dis_enblslpm_quirk;
+ 			snps,dis-u1-entry-quirk;
+ 			snps,dis-u2-entry-quirk;
++			snps,ref-clock-period-ns = <41>;
+ 			snps,dis-u2-freeclk-exists-quirk;
+ 			snps,dis-del-phy-power-chg-quirk;
+ 			snps,dis-tx-ipgap-linecheck-quirk;
+@@ -2695,6 +2696,7 @@ usbhost_dwc3_0: usb@fcd00000 {
+ 			snps,dis-del-phy-power-chg-quirk;
+ 			snps,dis-tx-ipgap-linecheck-quirk;
+ 			snps,dis_rxdet_inp3_quirk;
++			snps,ref-clock-period-ns = <41>;
+ 			snps,parkmode-disable-hs-quirk;
+ 			snps,parkmode-disable-ss-quirk;
+ 			status = "disabled";
+-- 
+2.34.1
+

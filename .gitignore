@@ -19,3 +19,6 @@ wb_probe.c~
 .idea/
 *.swp
 .DS_Store
+
+# 本地归档（含 7.6GB 镜像与未脱敏凭据，禁止入库）
+ai-handoff-20261005/
