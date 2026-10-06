@@ -1,0 +1,13 @@
+[Unit]
+Description=AP6611S/SYN43711 Bluetooth bring-up (patchram + H4 attach daemon)
+After=multi-user.target
+Conflicts=ap6611s-bluetooth.service ap6611s-bt-fixed.service
+
+[Service]
+Type=simple
+ExecStart=/home/xiaoxingchn/harness/bt-uart.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

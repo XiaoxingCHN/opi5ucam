@@ -195,3 +195,28 @@ TBU/TCU 端口。该端口的 QoS 生成器（`@0xfdf3a600(TBU) / @0xfdf3a800(TC
 3. 提取的 Firefly DTB（`firefly-v111f.dts`）与内核可用于后续深度比对
    （6.1.84 的 DWC3/xHCI/usbdp 驱动含 5.10→6.1 的大量上游修复，是
    方案二（回移植）的候选补丁来源）。
+
+---
+
+## 8. 附：蓝牙循环开关问题（ap6611s / SYN43711）
+
+**现象**：蓝牙每 ~38 秒电源循环一次（BT_RFKILL: shut off power → turn on power），
+hci 设备反复创建/消失。
+
+**根因（两层叠加）**：
+1. 原厂 `ap6611s-bluetooth.service` 的 UART 时序错误，SYN43711 蓝牙**从未真正
+   初始化成功**；bluetoothd/驱动无限重试 → rfkill 电源循环成为常态；
+2. 修复套件初版：AMPAK patchram 工具下载完成后退出 → tty 关闭时 line
+   discipline 还原 → hci 设备注销；其 btattach 又使用了内核未编译的
+   LL 协议（proto 5 → EPROTONOSUPPORT）。
+
+**修复（已部署 `bt-uart.service`）**：
+1. patchram 下载（AMPAK 工具，实测 chip id=SYN43711A0 响应正常）；
+2. H4 协议 attach 常驻守护：`TIOCSETD(N_HCI=15)` → 波特率 1500000 →
+   `HCIUARTSETPROTO(H4=0)`（注意：HCIUART 系列 ioctl 类型字符是 **'U'**，
+   HCIUARTSETPROTO=0x400455C8/SETFLAGS=0x400455C9）→ 持有 fd；
+3. 实测：hci0 UP RUNNING、真实 BD 地址、经典扫描成功。
+
+教训：HCIUART ioctl 类型字符是 'U'（0x400455C8/C9）而非直觉的 'H'；
+TIOCSETD/HCIUART ioctl 在 python fcntl 中必须传**缓冲区指针**（传 int 会 EFAULT）；
+patchram 工具退出后 tty 关闭会还原 line discipline——必须由常驻进程持有 fd。
