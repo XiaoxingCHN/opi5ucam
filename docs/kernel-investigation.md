@@ -72,3 +72,56 @@
 - **内核软件层**：配置级手段确实穷尽（A7 排除表），且主线无现成修复；
   死亡瞬间的机制观测（本文）把"无法解决"从推测升级为：**主机侧无修复抓手，
   根治点在相机固件与 PHY 模拟层**——该结论现在有 usbmon + gps + dmesg 三重证据支撑。
+
+---
+
+## 6. 追加实验（2026-10-06）：MMU QOS 优先级假设
+
+**外部线索**：Firefly 论坛同款问题（RK3588 原生 USB3.0 + 海康工业相机帧率不稳，
+USB 分析仪抓到 NRDY→Unexpected 错误，外接供电无效，PCIe 转 USB 卡反而稳定），
+最终"通过升级 MMU QOS 的优先级解决"
+（[forum.t-firefly.com/t/topic/11646](https://forum.t-firefly.com/t/topic/11646/10)，
+具体做法未公开）。
+
+### 6.1 带宽饥饿加速实验（✅ 方向确认）
+
+用 4 线程 memset 打满 DDR 带宽作为压力源，推流同时观测：
+
+| 条件 | 死亡时间 |
+|---|---|
+| 无负载基线 | 10~20+ 分钟（多轮） |
+| **DDR 带宽饱和** | **30 秒 ~ 7 分钟** |
+
+带宽争用显著加速死亡 → "USB3 DMA 被饿死"与死亡机制一致（也解释了死亡频率
+与桌面负载的正相关性：晚上无人使用时长时间不死，白天高负载时频发）。
+
+### 6.2 Interconnect QOS 块实验（⚠️ 不是完整解药）
+
+DTB 中的 QOS 块（`qos_usb3_0 @0xfdf3e200`、`qos_usb3_1 @0xfdf3e000`、
+`qos_usb2host_0/1 @0xfdf3e400/600`，每块 8 寄存器，0x08=QOS_PRIORITY）：
+
+- 寄存器格式实测：**3 位优先级字段**（写 0xF 读回 0x7，硬件截断），`0x0707` 已是最大值；
+- 板上默认值对比：USB3=0x0404、VOP=0x0303、GPU=0x0000；
+- **把 USB3 提到最大 0x0707 后，带宽饱和下仍然死亡**（120s）——
+  该 interconnect QOS 块不是 Firefly 修复的全部（或不是正确的块）；
+- PMU 电源域驱动（pm_domains.c）在域断电时保存/恢复这些寄存器
+  （PRIORITY@0x08 / MODE@0x0C / BANDWIDTH@0x10 / SATURATION@0x14 / EXTCONTROL@0x18）。
+
+### 6.3 开放问题与下一步
+
+1. **Firefly 修复的确切内容**在 v1.0.7+ 固件里（FAE 私有补丁）：
+   - 路径 A：论坛联系 ainstecYang 索取补丁；
+   - 路径 B：下载 Firefly AIO-3588SJD4 / ROC-RK3588S-PC v1.0.7+ 固件，
+     解包提取 DTB/内核，diff QOS 相关改动（工具已备好：`tools/`）；
+   - 路径 C：Rockchip FAE / TRM QOS 章节（寄存器语义可从 TRM 补全）。
+2. "MMU QOS" 的字面指向仍待定：可能是 DMC 端口仲裁（非本 interconnect 块）、
+   或 vendor 内核在 USB3 路径新增的 QOS 设置代码。
+3. 采样基础设施已固化：`tools/gps_poll.py`（usbfs GetPortStatus 1Hz 端口状态）、
+   `tools/death_watcher2.sh`（自动死亡采样）、`tools/observe_death.py`（PORTSC 观测）。
+
+### 6.4 实验基础设施备忘
+
+- **/tmp 不可靠**：系统时钟步进（NTP 校正 10.6h）导致 systemd-tmpfiles 清理"过期"
+  文件——实验产物一律写 `~/harness/`；
+- 系统时钟步进使跨源时间对齐必须经 `/proc/stat` 的 btime 换算；
+- pkill 模式匹配会命中同命令行中的启动文本——杀进程与含关键字的启动命令必须分开执行。
