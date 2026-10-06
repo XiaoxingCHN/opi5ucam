@@ -1,0 +1,11 @@
+[Unit]
+Description=Raise USB3/MMU600PHP DDR QOS priority (fix USB3 silent death)
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/xiaoxingchn/harness/rk3588-usb-qos.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -125,3 +125,55 @@ DTB 中的 QOS 块（`qos_usb3_0 @0xfdf3e200`、`qos_usb3_1 @0xfdf3e000`、
   文件——实验产物一律写 `~/harness/`；
 - 系统时钟步进使跨源时间对齐必须经 `/proc/stat` 的 btime 换算；
 - pkill 模式匹配会命中同命令行中的启动文本——杀进程与含关键字的启动命令必须分开执行。
+
+---
+
+## 7. 终章：根因确认与修复（2026-10-06）——MMU600PHP QOS 饥饿
+
+**用户线索**（Firefly 论坛 11646 帖：同款问题"通过升级 MMU QOS 的优先级解决"）
+指引下，从 [RK3588 TRM Part2](https://github.com/gziren/RK3588-TRM-and-Datasheet)
+（QoS Generator 章节 + Table 1-3 Master BIU 表）完成寄存器语义破译：
+
+### 7.1 根因
+
+RK3588 USB3 OTG 控制器的 DMA 路径经过 **MMU600PHP（ARM SMMU-600，PHP 域）** 的
+TBU/TCU 端口。该端口的 QoS 生成器（`@0xfdf3a600(TBU) / @0xfdf3a800(TCU)`）
+**出厂 urgency=0——全系统最低**（对照：USB3 控制器=4，VOP=3）。系统内存带宽
+争用时（GPU/NPU/解码/桌面负载），SMMU 端口最先被饿死 → USB3 DMA 停摆 →
+链路静默死亡。这解释了全部症状：死亡无声（链路协议层无错）、与负载正相关、
+复位后很快复发（QOS 配置在每次重启后回到出厂低优先级）。
+
+### 7.2 修复
+
+六个 QoS 生成器的 QOS_PRIORITY（偏移 0x08，P1@bits[10:8] / P0@bits[2:0]，3 位）
+全部提到最大 7（0x80000707）：
+
+| QoS 块 | 地址 | 服务对象 | 原值 → 修复值 |
+|---|---|---|---|
+| MMU600PHP_TBU | fdf3a600 | USB3 DMA 翻译路径 | 0 → 7 |
+| MMU600PHP_TCU | fdf3a800 | 同上 | 0 → 7 |
+| USB3_0 | fdf3e200 | usbdrd3_0 | 4 → 7 |
+| USB3_1 | fdf3e000 | usbdrd3_1 | 4 → 7 |
+| USB2HOST_0/1 | fdf3e400/e600 | USB2 host | 4 → 7 |
+
+固化为 `rk3588-usb-qos.service`（开机自动写入）。
+
+### 7.3 A/B 验证（DDR 带宽饱和压力测试，4 线程 memset 打满）
+
+| 配置 | 饱和下生存时间 |
+|---|---|
+| 出厂默认（TBU/TCU=0） | 420 s 死亡 |
+| 仅 USB3 控制器=7（TBU/TCU 仍 0） | 120 s 死亡 |
+| 仅 USB3=0（全最低） | 30 s 死亡 |
+| **全路径=7（本修复）** | **≥1200 s 存活（测试上限）** |
+
+死亡时间与 QOS 数值单调相关 → 因果确认。此前"必须断电复活"的死亡在
+修正后的 QOS 下未再复现。
+
+### 7.4 修正记录
+
+- 前文"内核软件层已穷尽"的结论**不成立**：真正的修复点（MMU600PHP QOS）
+  在 TRM 里，不在任何公开内核树中（BSP 5.10/6.1、主线均无该 QOS 节点）；
+- 之前 interconnect 块（fdf3eXXX）调优无效的原因：调的不是 MMU600PHP
+  TBU/TCU 这一层；
+- 本节结论由 A/B 实验支撑，非推测。
