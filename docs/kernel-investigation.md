@@ -220,3 +220,15 @@ hci 设备反复创建/消失。
 教训：HCIUART ioctl 类型字符是 'U'（0x400455C8/C9）而非直觉的 'H'；
 TIOCSETD/HCIUART ioctl 在 python fcntl 中必须传**缓冲区指针**（传 int 会 EFAULT）；
 patchram 工具退出后 tty 关闭会还原 line discipline——必须由常驻进程持有 fd。
+
+## 9. 蓝牙 bring-up 修复验证（2026-10-06 晚）
+
+`ap6611s-bt-fixed` 套件在反复调试后成功 bring-up：
+hci0（UART）UP RUNNING PSCAN ISCAN，BD 地址随机化正常，10 秒扫描发现 55 个设备。
+
+经验记录：
+1. bring-up 时序敏感（断电→patchram→btattach 持有），服务自带 15 次重试；
+2. 失败态的典型特征：hci0 有 BD 地址但命令超时（UART 会话失步）——
+   完整重跑 `systemctl restart ap6611s-bt-fixed` 即可恢复；
+3. GNOME"关蓝牙即飞行模式"的表象 = bring-up 失败导致 rfkill 设备反复注册
+   （索引滚到 725），GNOME 误判；bring-up 稳定后消失。
