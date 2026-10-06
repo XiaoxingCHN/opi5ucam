@@ -411,7 +411,7 @@ private:
             RCLCPP_WARN(get_logger(), "[RECOVER] running %s", recover_script_.c_str());
             std::thread(
               [this] {
-                const std::string cmd = "timeout 120 " + recover_script_;
+                const std::string cmd = "timeout 120 sudo -n " + recover_script_;
                 recover_rc_ = std::system(cmd.c_str());
                 recover_done_ = true;
               }).detach();
