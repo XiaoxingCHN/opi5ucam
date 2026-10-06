@@ -177,3 +177,21 @@ TBU/TCU 端口。该端口的 QoS 生成器（`@0xfdf3a600(TBU) / @0xfdf3a800(TC
 - 之前 interconnect 块（fdf3eXXX）调优无效的原因：调的不是 MMU600PHP
   TBU/TCU 这一层；
 - 本节结论由 A/B 实验支撑，非推测。
+
+---
+
+## 8. Firefly v1.1.1f 固件解析（2026-10-06）
+
+用户提供 Firefly AIO-3588SJD4 Ubuntu22.04-Xfce-r31154_v1.1.1f_250521 固件
+（2025-05，内核 6.1.84）。解包链：RKFW 外壳 → RKAF 更新包 → boot 分区（FIT）→
+内核 Image（40.1MB）+ DTB（249KB，反编译为 `firefly-v111f.dts`）。
+
+**结论**：
+1. Firefly 6.1.84 内核与 DTB 中**均无** USB3/MMU600PHP 的 QOS 优先级代码或节点
+   （strings 与 DTB 全文检查）——其"MMU QOS"修复大概率在 **DDR 初始化 blob**
+   （bootloader 层，随 SDK 更新）或其 FAE 私有内核补丁；
+2. 我们的用户态运行时注入（rk3588-usb-qos.service）以更简单的方式
+   达成了同等效果（A/B：饱和下 420s 死 → 1200s+ 存活）；
+3. 提取的 Firefly DTB（`firefly-v111f.dts`）与内核可用于后续深度比对
+   （6.1.84 的 DWC3/xHCI/usbdp 驱动含 5.10→6.1 的大量上游修复，是
+   方案二（回移植）的候选补丁来源）。
